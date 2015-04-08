@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+
+  <title>Firebase</title>
+
+  <meta name="description" content="Firebase makes realtime apps easy">
+  <meta name="author" content="Jenny Tong">
+
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=no">
+
+  <link rel="stylesheet" href="css/reveal.min.css">
+  <link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+  <!-- For syntax highlighting -->
+  <link rel="stylesheet" href="lib/css/zenburn.css">
+
+  <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+  <script>
+    if (window.location.search.match(/print-pdf/gi)) {
+      var link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = 'css/print/pdf.css';
+      document.getElementsByTagName('head')[0].appendChild(link);
+    }
+  </script>
+
+  <script>
+    var currentSlide = 0;
+
+  </script>
+
+
+  <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA6U2ExB8yLDc7RiGPYK3C3yIzDPpyFJE0&sensor=false"></script>
+  <script src="https://cdn.firebase.com/libs/geofire/3.0.2/geofire.min.js"></script>
+  <script src="https://cdn.firebase.com/js/client/2.1.1/firebase.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="js/transit.js"></script>
+
+  <!--[if lt IE 9]>
+  <script src="lib/js/html5shiv.js"></script>
+  <![endif]-->
+  <script src="js/jQuery.tubeplayer.min.js"></script>
+
+
+  <style>
+    .openlayers-map img {
+      margin: 0;
+    }
+
+    #map-canvas img {
+      max-width: none;
+      max-height: none;
+      box-shadow: none;
+    }
+
+    .slides section {
+      font-size: 125%;
+    }
+
+    .slides section img {
+      background: none;
+      box-shadow: none;
+      border: none;
+    }
+
+    .reveal pre code {
+      font-size: 120%;
+    }
+
+    ul.multicol li {
+      display: inline-block;
+      width: 400px;
+      height: 400px;
+    }
+
+    ul.multicol li li {
+      display: block;
+      width: auto;
+      height: auto;
+    }
+
+    .reveal section img {
+      max-height: 65%;
+    }
+  </style>
+
+</head>
+
+<body>
+
+<div class="reveal">
+  <div class="slides">
+
+<section>
+  <h2>How to MMOize Anything</h2>
+  <h3>without starting a server</h3>
+</section>
+
+<section>
+  <div>
+    <img src="img/jenny.jpg" style="float: left; border-radius: 150px; margin-right: 40px; width: 300px;">
+
+    <div style="float: left; width: 400px;">
+      <h3>Jenny Tong</h3>
+      Developer Advocate at <img src="img/firebase-logo.png" style="width: 300px;">
+      <br/>
+      <br/>
+      <a href="https://plus.google.com/+mimming">+mimming</a><br/>
+      <a href="https://twitter.com/MimmingCodes">@MimmingCodes</a><br/>
+    </div>
+  </div>
+</section>
+
+<section data-markdown>
+  <script type="text/template">
+    ## Agenda
+
+    - MMOize? What? Why?
+    - A little about Firebase
+    - MMOize something
+
+  </script>
+</section>
+
+<section>
+  <h2>MMOization</h2>
+  <br/>
+  <span style="font-size: 120px;">+</span> <img style="width: 200px;" src="img/os-logo.png">
+  <img  class="fragment" style="width: 200px;" src="img/happy-cloud.png">
+  <img  class="fragment" style="width: 300px;" src="img/ballmer_peak.png"><br/>
+  <hr style="max-width: 800px;"/>
+  <h3 class="fragment">Lots of fun</h3>
+
+</section>
+
+<section>
+  <h2>MMO Asteroids</h2>
+  <br/>
+
+  <iframe style="background-color: #fff; overflow: hidden;"
+          src="./asteroids" width="800" height="455" scrolling="no"></iframe>
+
+  <br/><a href="http://tinyurl.com/MMOasteroids">http://tinyurl.com/MMOasteroids</a>
+
+</section>
+
+<section data-markdown>
+  <script type="text/template">
+    ## MMOizing Steps
+
+    - Find something to hack
+    - Modernize tooling
+    - Refactor a little
+    - Hack in multiplayer
+    - Play test
+    - Fix stuff
+  </script>
+</section>
+
+<section data-markdown>
+  <script type="text/template">
+    ## Realtime is
+    ### Data best served fresh
+
+    ![Value over time](img/graph.png)
+  </script>
+</section>
+
+<section>
+  <h2>Realtime is</h2>
+
+  <h3>Where your bus is</h3>
+
+  <div id="map-canvas" style="width: 100%; height: 600px"></div>
+</section>
+
+<section>
+  <h2>Realtime is</h2>
+
+  <h3>Collaborative drawing</h3>
+
+  <iframe style="background-color: #fff; overflow: hidden;" scrolling="no"
+          src="https://wb-mobile-demo.firebaseapp.com/#-JgDwv_wX9fiivJF7ALg" width="800" height="400"></iframe>
+
+  <br/><a href="http://tinyurl.com/FireDraw">http://tinyurl.com/FireDraw</a>
+</section>
+
+<section>
+  <h2>Some JavaScript code</h2>
+  <br/>
+
+  <div class="fragment">
+    <h4>Write Data</h4>
+<pre style="margin-bottom:-50px;"><code data-trim>
+var ref = new Firebase("https://gdg.firebaseio-demo.com/");
+
+ref.set("Hello, Developers!");
+</code></pre>
+  </div>
+  <br/><br/>
+
+  <div class="fragment">
+    <h4>Read Data</h4>
+<pre><code data-trim>
+ref.on("value", function (snapshot) {
+  var data = snapshot.val();
+  console.log(data);
+});
+</code></pre>
+  </div>
+</section>
+
+<section>
+  <h3>Works with</h3>
+
+  <img src="img/frameworks-transparent.png" style="background: none; box-shadow: none; border: none;">
+</section>
+
+<section>
+  <h3>Goodies to reduce the need for servers</h3>
+
+  <br/>
+
+  <div style="float: left; margin: 0 20px;">
+    <img src="img/database.png" style="height: 200px;"/><br/><b>Data</b>
+  </div>
+  <div style="float: left; margin: 0 20px;">
+    <img src="img/userMan.png" style="height: 200px;"/><br/><b>Authentication</b>
+  </div>
+  <div style="float: left; margin: 0 20px;">
+    <img src="img/hosting.png" style="height: 200px;"/><br/><b>Hosting</b>
+  </div>
+  <div style="clear: both;"></div>
+
+</section>
+
+<section>
+  <h2>Some facts about Firebase</h2>
+  <br/>
+  <ul>
+    <li>Founded in 2011</li>
+    <li class="fragment">Acquired by Google in October 2014</li>
+    <li class="fragment"><span id="current-devs">160,000</span> developers</li>
+    <li class="fragment">Over 1,000,000 concurrent connections</li>
+  </ul>
+  <script>
+    $(document).ready(function () {
+      var devsRef = new Firebase("https://firebase-website.firebaseio.com/stats/signups");
+      devsRef.on("value", function (snap) {
+        $("#current-devs").text(snap.val().toLocaleString());
+
+      });
+    });
+  </script>
+</section>
+
+<section>
+  <h1>The End</h1>
+  <ul>
+    <li>Slides: <a href="https://mimming.com/presos/how-to-mmoize-anything">mimming.com/presos/firebase-overview</a>
+    </li>
+    <li>Bubble Thinggy: <a href="https://github.com/mimming/firebase-tiny-chat">github.com/mimming/firebase-tiny-chat</a></li>
+  </ul>
+  <br/><br/>
+  Questions anyone?
+</section>
+
+
+</div>
+
+</div>
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.min.js"></script>
+
+<script>
+
+  // Full list of configuration options available here:
+  // https://github.com/hakimel/reveal.js#configuration
+  Reveal.initialize({
+    controls: true,
+    progress: true,
+    history: true,
+    center: true,
+
+    theme: "night", // available themes are in /css/theme
+    transition: Reveal.getQueryHash().transition || 'concave', // default/cube/page/concave/zoom/linear/fade/none
+
+    // Parallax scrolling
+    // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+    // parallaxBackgroundSize: '2100px 900px',
+
+    // Optional libraries used to extend on reveal.js
+    dependencies: [
+      { src: 'lib/js/classList.js', condition: function () {
+        return !document.body.classList;
+      } },
+      { src: 'plugin/markdown/marked.js', condition: function () {
+        return !!document.querySelector('[data-markdown]');
+      } },
+      { src: 'plugin/markdown/markdown.js', condition: function () {
+        return !!document.querySelector('[data-markdown]');
+      } },
+      { src: 'plugin/highlight/highlight.js', async: true, callback: function () {
+        hljs.initHighlightingOnLoad();
+      } },
+      { src: 'plugin/zoom-js/zoom.js', async: true, condition: function () {
+        return !!document.body.classList;
+      } },
+      { src: 'plugin/notes/notes.js', async: true, condition: function () {
+        return !!document.body.classList;
+      } }
+    ]
+  });
+
+  // Update to display map on map-canvas when that slide loads
+  Reveal.addEventListener('slidechanged', function (event) {
+    if (event.indexh === 5) {
+      transitmapstart()
+    }
+  });
+
+</script>
+
+</body>
+</html>
