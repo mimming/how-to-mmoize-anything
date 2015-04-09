@@ -164,7 +164,7 @@
   <h3>Firebase Realtime Backend</h3>
 
   <img src="img/firebase-overview2.png" style="max-width: 70%;">
-  <p class="fragment"><span id="current-devs">175,000</span> registered developers</p>
+  <p><span id="current-devs">175,000</span> registered developers</p>
   <script>
     $(document).ready(function () {
       var devsRef = new Firebase("https://firebase-website.firebaseio.com/stats/signups");
@@ -302,13 +302,12 @@ public void addBubble(float x, float y) {
   
 // Listen to changes in bubbles from everywhere
 firebaseRef.addChildEventListener(new ChildEventListener() {
-    @Override
-    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-        // Add to local copy
-        bubbles.put(
-            dataSnapshot.getKey(), 
-            dataSnapshot.getValue(Bubble.class));
-    }
+  public void onChildAdded(DataSnapshot snap, String s) {
+    // Add to local copy
+    bubbles.put(
+      snap.getKey(),
+      snap.getValue(Bubble.class));
+  }
 ...);
 
 </code></pre>
@@ -352,15 +351,14 @@ Class Bubble {
   
 // Calculate locally where you can
 Class Bubble {
-    long born;
-  
-    public long getRadius() {
-        long deltaMs = (System.currentTimeMillis()) - this.born;
-        return (long) (deltaMs * RADIUS_CHANGE_PER_MS + INITIAL_RADIUS);
-    }
-    ...
-}
+  long born;
 
+  public long getRadius() {
+    long deltaMs = 
+      System.currentTimeMillis() - this.born;
+    return deltaMs * RADIUS_CHANGE_PER_MS + INITIAL_RADIUS;
+  }
+}
 </code></pre>
 </section>
 
@@ -368,17 +366,20 @@ Class Bubble {
   <h2>Fixing Clock Skew</h2>
 <pre><code class="java" data-trim>
 // Listen for clock skew
-Firebase clockSkewRef = 
-  new Firebase("https://dinosaurs.firebaseio.com/.info/serverTimeOffset");
-  
-clockSkewRef.addValueEventListener(new ValueEventListener() {
-    public void onDataChange(DataSnapshot dataSnapshot) {
-  
-        clockSkew = dataSnapshot.getValue(Long.class);
-        Log.v(TAG, "Clock skew updated: " + clockSkew);
-    }
-    ...
+Firebase skewRef = new Firebase(
+   "https://dino.firebaseio.com/.info/serverTimeOffset");
+
+  skewRef.addValueEventListener(new ValueEventListener() {
+  public void onDataChange(DataSnapshot dataSnapshot) {
+    clockSkew = dataSnapshot.getValue(Long.class);
+  }
 });
+
+// Use it elsewhere
+public long getRadius() {
+  long deltaMs = currentTime - this.born + clockSkew;
+  return deltaMs * RADIUS_CHANGE_PER_MS + INITIAL_RADIUS;
+}
 </code></pre>
 </section>
 
@@ -394,7 +395,6 @@ playerDataRef.onDisconnect().removeValue()
 <section>
   <h2>Play Again</h2>
   <img src="img/finished-game.gif">
-  <p class="fragment">It works! Celebrate again!</p>
 </section>
 
 <section>
@@ -407,7 +407,8 @@ playerDataRef.onDisconnect().removeValue()
     <li>Bubble Thinggy: <a href="https://github.com/mimming/bubble-thinggy">github.com/mimming/bubble-thinggy</a></li>
   </ul>
   <br/>
-  <p>Now go MMOize some stuff! And share it with me.</p>
+  <br/>
+  <h4>Now go MMOize some stuff! And share it with me.</h4>
 </section>
 
 
