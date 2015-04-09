@@ -101,7 +101,7 @@
 
 <section>
   <h2>How to MMOize Anything</h2>
-  <h3>without starting a server</h3>
+  <p>without starting a server</p>
 </section>
 
 <section>
@@ -126,8 +126,23 @@
     - MMOize? What? Why?
     - A little about Firebase
     - MMOize something
-
   </script>
+</section>
+    
+<section>
+  <h3>It started as an April Fools joke</h3>
+  <img src="img/mmo-asteroids-joke.gif">
+  <p>Seb Lee-Delisle's MMO Asteroids <a href="http://seb.ly/2012/04/node-js-experiment-mmo-asteroids/">blog post</a></p>
+</section>
+    
+<section>
+  <h2>Our response</h2>
+  <br/>
+
+  <iframe style="background-color: #fff; overflow: hidden;"
+          src="./asteroids" width="800" height="455" scrolling="no"></iframe>
+
+  <br/><a href="http://tinyurl.com/MMOasteroids">http://tinyurl.com/MMOasteroids</a>
 </section>
 
 <section>
@@ -138,119 +153,18 @@
   <img  class="fragment" style="width: 300px;" src="img/ballmer_peak.png"><br/>
   <hr style="max-width: 800px;"/>
   <h3 class="fragment">Lots of fun</h3>
-
 </section>
+
 
 <section>
-  <h2>MMO Asteroids</h2>
-  <br/>
-
-  <iframe style="background-color: #fff; overflow: hidden;"
-          src="./asteroids" width="800" height="455" scrolling="no"></iframe>
-
-  <br/><a href="http://tinyurl.com/MMOasteroids">http://tinyurl.com/MMOasteroids</a>
-
+  <h2>A little bit about <img src="img/firebase-logo.png" style="width: 400px;"></h2>
 </section>
-
-<section data-markdown>
-  <script type="text/template">
-    ## MMOizing Steps
-
-    - Find something to hack
-    - Modernize tooling
-    - Refactor a little
-    - Hack in multiplayer
-    - Play test
-    - Fix stuff
-  </script>
-</section>
-
-<section data-markdown>
-  <script type="text/template">
-    ## Realtime is
-    ### Data best served fresh
-
-    ![Value over time](img/graph.png)
-  </script>
-</section>
-
+    
 <section>
-  <h2>Realtime is</h2>
+  <h3>Firebase Realtime Backend</h3>
 
-  <h3>Where your bus is</h3>
-
-  <div id="map-canvas" style="width: 100%; height: 600px"></div>
-</section>
-
-<section>
-  <h2>Realtime is</h2>
-
-  <h3>Collaborative drawing</h3>
-
-  <iframe style="background-color: #fff; overflow: hidden;" scrolling="no"
-          src="https://wb-mobile-demo.firebaseapp.com/#-JgDwv_wX9fiivJF7ALg" width="800" height="400"></iframe>
-
-  <br/><a href="http://tinyurl.com/FireDraw">http://tinyurl.com/FireDraw</a>
-</section>
-
-<section>
-  <h2>Some JavaScript code</h2>
-  <br/>
-
-  <div class="fragment">
-    <h4>Write Data</h4>
-<pre style="margin-bottom:-50px;"><code data-trim>
-var ref = new Firebase("https://gdg.firebaseio-demo.com/");
-
-ref.set("Hello, Developers!");
-</code></pre>
-  </div>
-  <br/><br/>
-
-  <div class="fragment">
-    <h4>Read Data</h4>
-<pre><code data-trim>
-ref.on("value", function (snapshot) {
-  var data = snapshot.val();
-  console.log(data);
-});
-</code></pre>
-  </div>
-</section>
-
-<section>
-  <h3>Works with</h3>
-
-  <img src="img/frameworks-transparent.png" style="background: none; box-shadow: none; border: none;">
-</section>
-
-<section>
-  <h3>Goodies to reduce the need for servers</h3>
-
-  <br/>
-
-  <div style="float: left; margin: 0 20px;">
-    <img src="img/database.png" style="height: 200px;"/><br/><b>Data</b>
-  </div>
-  <div style="float: left; margin: 0 20px;">
-    <img src="img/userMan.png" style="height: 200px;"/><br/><b>Authentication</b>
-  </div>
-  <div style="float: left; margin: 0 20px;">
-    <img src="img/hosting.png" style="height: 200px;"/><br/><b>Hosting</b>
-  </div>
-  <div style="clear: both;"></div>
-
-</section>
-
-<section>
-  <h2>Some facts about Firebase</h2>
-  <br/>
-  <ul>
-    <li>Founded in 2011</li>
-    <li class="fragment">Acquired by Google in October 2014</li>
-    <li class="fragment"><span id="current-devs">160,000</span> developers</li>
-    <li class="fragment">Over 1,000,000 concurrent connections</li>
-  </ul>
+  <img src="img/firebase-overview2.png" style="max-width: 70%;">
+  <p class="fragment"><span id="current-devs">175,000</span> registered developers</p>
   <script>
     $(document).ready(function () {
       var devsRef = new Firebase("https://firebase-website.firebaseio.com/stats/signups");
@@ -261,16 +175,239 @@ ref.on("value", function (snapshot) {
     });
   </script>
 </section>
+<section data-markdown>
+  <script type="text/template">
+    ## Realtime is
+    ### Data best served fresh
+
+    ![Value over time](img/graph.png)
+  </script>
+</section>
+    
+<section>
+  <h2>Realtime is</h2>
+
+  <h3>Where your bus is</h3>
+  <div id="map-canvas" style="width: 100%; height: 600px"></div>
+</section>
+    
+<section>
+  <h2>Some Java code</h2>
+
+  <div class="fragment">
+<pre style="margin-bottom:-50px;"><code class="java" data-trim>
+// Write
+Firebase ref = 
+  new Firebase("https://dinosaurs.firebaseio.com/");
+
+ref.child("note").setValue("Dinosaurs are awesome");
+  
+Dinosaur brontosaurus = new Dinosaur();
+ref.child("really-existed").push().setValue(brontosaurus);
+  
+</code></pre>
+  </div>
+<br/>
+  <div class="fragment">
+<pre><code class="java" data-trim>
+// Read
+ref.child("note").addValueEventListener(
+  new ValueEventListener() {
+    public void onDataChange(DataSnapshot snapshot) {
+        Log.v(TAG, snapshot.getValue());
+    }
+
+    public void onCancelled(FirebaseError firebaseError) {
+        Log.e(TAG, "Uhoh! " + firebaseError);
+}});
+</code></pre>
+  </div>
+</section>
+
+<section data-markdown>
+  <script type="text/template">
+    ## MMOizing Steps
+
+    - Find something to hack
+    - Refactor (a little)
+    - Hack in multiplayer
+    - Play test
+    - Fix stuff
+  </script>
+</section>
+
+<section data-markdown>
+  <script type="text/template">
+## Find something to hack
+- Search GitHub
+- Favorable (any) licesning
+- Gameplay that will adapt well to multiplayer
+  - Asymetric / symetric gameplay
+  - Interaction model
+  - Scoring: zero sum?
+  </script>
+</section>
+    
+<section>
+  <h2>Bubble Making "Game"</h2>
+  <img src="img/bubbles.gif"><br/>
+  <a href="https://github.com/eburke/android_game_examples">by eburke, on GitHub</a>
+</section>
+    
+<section data-markdown>
+  <script type="text/template">
+## Refactor
+- Import and initial build
+- Do the least possible refactoring
+- Figure out where you can hack Multiplayer in
+  </script>
+</section>
+
+<section>
+  <h2>Refactoring Bubble Game</h2>
+  <img src="img/bubble-arch.png" style="max-width: 50%;">
+  <ul class="fragment">
+    <li>Imported into Android Studio</li>
+    <li>Gutted the low level semaphore stuff</li>
+  </ul>
+</section>
+
+<section data-markdown>
+  <script type="text/template">
+    ## Hack in multiplayer
+    - Move local data model to Firebase
+  </script>
+</section>
+
+<section>
+  <h2>Hacking Multiplayer Bubble Game</h2>
+<pre><code class="java" data-trim>
+// Replace writes  
+
+// This
+public void addBubble(float x, float y) {
+  bubbles.push(new Bubble(x,y));
+}
+
+// Becomes
+public void addBubble(float x, float y) {
+    firebaseRef.push().setValue(new Bubble(x, y));
+}
+</code></pre>
+</section>
+<section>
+  <h2>Hacking Multiplayer Bubble Game</h2>
+<pre><code class="java" data-trim>
+// Add listeners to model constructor
+  
+// Listen to changes in bubbles from everywhere
+firebaseRef.addChildEventListener(new ChildEventListener() {
+    @Override
+    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+        // Add to local copy
+        bubbles.put(
+            dataSnapshot.getKey(), 
+            dataSnapshot.getValue(Bubble.class));
+    }
+...);
+
+</code></pre>
+</section>
+
+<section data-markdown>
+  <script type="text/template">
+## Play test it
+- It works! Celebrate!
+- Find bugs
+  - Asynchronous connects
+  - Disconnects
+  - Mess with system settings
+  - Different screen sizes
+- Weep
+  </script>
+</section>
+
+<section>
+  <h2>Play Test</h2>
+  <img src="img/bubbles-multi.gif">
+</section>
+
+<section data-markdown>
+  <script type="text/template">
+## Fix Stuff
+- Overly chatty writes
+- Clock skew
+- Zombie players
+  </script>
+</section>
+
+<section>
+  <h2>Fixing Chatty Bubbles</h2>
+<pre><code class="java" data-trim>
+// Find chatty data
+Class Bubble {
+  long radius;
+  ...
+}
+  
+// Calculate locally where you can
+Class Bubble {
+    long born;
+  
+    public long getRadius() {
+        long deltaMs = (System.currentTimeMillis()) - this.born;
+        return (long) (deltaMs * RADIUS_CHANGE_PER_MS + INITIAL_RADIUS);
+    }
+    ...
+}
+
+</code></pre>
+</section>
+
+<section>
+  <h2>Fixing Clock Skew</h2>
+<pre><code class="java" data-trim>
+// Listen for clock skew
+Firebase clockSkewRef = 
+  new Firebase("https://dinosaurs.firebaseio.com/.info/serverTimeOffset");
+  
+clockSkewRef.addValueEventListener(new ValueEventListener() {
+    public void onDataChange(DataSnapshot dataSnapshot) {
+  
+        clockSkew = dataSnapshot.getValue(Long.class);
+        Log.v(TAG, "Clock skew updated: " + clockSkew);
+    }
+    ...
+});
+</code></pre>
+</section>
+
+<section>
+<h2>Fixing Zombie Players</h2>
+<pre><code class="java" data-trim>
+// Add an on disconnect handler
+
+playerDataRef.onDisconnect().removeValue()
+</code></pre>
+</section>
+
+<section>
+  <h2>Play Again</h2>
+  <img src="img/finished-game.gif">
+  <p class="fragment">It works! Celebrate again!</p>
+</section>
 
 <section>
   <h1>The End</h1>
+  <p></p>
   <ul>
-    <li>Slides: <a href="https://mimming.com/presos/how-to-mmoize-anything">mimming.com/presos/firebase-overview</a>
+    <li>Slides: <a href="https://mimming.com/presos/how-to-mmoize-anything">mimming.com/presos/how-to-mmoize-anything</a> 
+      (<a href="https://github.com/mimming/how-to-mmoize-anything">code</a>)
     </li>
-    <li>Bubble Thinggy: <a href="https://github.com/mimming/firebase-tiny-chat">github.com/mimming/firebase-tiny-chat</a></li>
+    <li>Bubble Thinggy: <a href="https://github.com/mimming/bubble-thinggy">github.com/mimming/bubble-thinggy</a></li>
   </ul>
-  <br/><br/>
-  Questions anyone?
+  <br/>
+  <p>Now go MMOize some stuff! And share it with me.</p>
 </section>
 
 
@@ -323,7 +460,7 @@ ref.on("value", function (snapshot) {
 
   // Update to display map on map-canvas when that slide loads
   Reveal.addEventListener('slidechanged', function (event) {
-    if (event.indexh === 5) {
+    if (event.indexh === 9) {
       transitmapstart()
     }
   });
